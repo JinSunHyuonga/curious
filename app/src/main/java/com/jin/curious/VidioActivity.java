@@ -23,7 +23,7 @@ public class VidioActivity extends AppCompatActivity {
 
         remonCall = RemonCall.builder()
                 .context(this)
-                .serviceId("serviceId")
+                .serviceId("id")
                 .key("key")
                 .videoCodec("VP8")
                 .videoWidth(640)

@@ -29,7 +29,10 @@ public class MenuActivity extends AppCompatActivity {
             public  void onClick(View view){
                 refreshIP();
                 if (ipValue.equals("")) {
-                    Toast.makeText(MenuActivity.this, "IP를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MenuActivity.this, "IP를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    //IP입력 안하면 서비스로 자동으로 실행 테스트중
+                    Intent intent = new Intent(getApplicationContext(), SoundActivity.class);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), SoundActivity.class);
                     startActivity(intent);

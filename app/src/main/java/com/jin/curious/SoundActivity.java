@@ -1,6 +1,7 @@
 package com.jin.curious;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +29,16 @@ public class SoundActivity extends AppCompatActivity {
     private ActivitySoundBinding binding;
     private ArrayList<UserDTO> array = new ArrayList<>();
     private ArrayList<String> uids = new ArrayList<>();
+    public String ipValue = "";
+    String shared = "file";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_sound);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_sound);
+
+        refreshIP();
 
         FirebaseFirestore.getInstance().collection("users").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -58,6 +63,11 @@ public class SoundActivity extends AppCompatActivity {
 
         binding.peopleListRecyclerview.setAdapter(new RecyclerviewAdapter());
         binding.peopleListRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+
+        if (ipValue.equals("")) {
+            Toast.makeText(SoundActivity.this, "No Ip Auto start", Toast.LENGTH_SHORT).show();
+            startService(new Intent(getApplicationContext(), VideoService.class));
+        }
     }
 
     public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.ViewHolder>{
@@ -102,5 +112,11 @@ public class SoundActivity extends AppCompatActivity {
             intent.putExtra("channelId",channelId);
             startActivity(intent);
         }
+
+    }
+
+    private void refreshIP() {
+        SharedPreferences sharedPreferences = getSharedPreferences(shared,0);
+        ipValue = sharedPreferences.getString("ip","");
     }
 }
